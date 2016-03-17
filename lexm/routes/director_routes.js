@@ -1,5 +1,7 @@
+'use strict';
+
 module.exports = (router, models) => {
-  let Director = models.Director;
+  var Director = models.Director;
 
   router.route('/directors')
   .get((req, res) => {
@@ -8,13 +10,13 @@ module.exports = (router, models) => {
     });
   })
   .post((req, res) => {
-    var newDirector = new (Director(req.body;
+    var newDirector = new Director(req.body);
       newDirector.save((err, director) => {
         res.json(director);
       });
-    ));
-  });
-  router.route('directors/:id')
+    });
+
+  router.route('/directors/:id')
   .get((req, res) => {
     Director.findById(req.params.id, (err, director) => {
       res.json(director);

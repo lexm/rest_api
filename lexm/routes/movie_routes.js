@@ -1,5 +1,7 @@
+'use strict';
+
 module.exports = (router, models) => {
-  let Movie = models.Movie;
+  var Movie = models.Movie;
 
   router.route('/movies')
   .get((req, res) => {
@@ -8,13 +10,13 @@ module.exports = (router, models) => {
     });
   })
   .post((req, res) => {
-    var newDirector = new (Movie(req.body;
+    var newDirector = new Movie(req.body);
       newDirector.save((err, movie) => {
         res.json(movie);
       });
-    ));
-  });
-  router.route('movies/:id')
+    });
+
+  router.route('/movies/:id')
   .get((req, res) => {
     Movie.findById(req.params.id, (err, movie) => {
       res.json(movie);
