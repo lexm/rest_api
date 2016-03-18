@@ -33,6 +33,12 @@ app.get('/movies/:id', (req, res) => {
 app.post('/movies', (req, res) => {
   var newMovie = new Movie(req.body);
   newMovie.save((err, movie) => {
+    console.log(movie._id);
+    console.log(req.body.director);
+    Director.findById(req.body.director, (err, director) => {
+      console.log(director);
+      director.movies.push(movie._id);
+    });
     res.json(movie);
   });
 });
@@ -40,6 +46,11 @@ app.post('/movies', (req, res) => {
 app.put('/movies/:id', (req, res) => {
   Movie.findByIdAndUpdate(req.params.id, req.body, (err, movie) => {
     if (err) return res.send(err);
+    console.log(req.body.director);
+    Director.findById(req.body.director, (err, director) => {
+      console.log(director);
+      director.movies.push(movie._id);
+    });
     res.json(movie);
   });
 });
