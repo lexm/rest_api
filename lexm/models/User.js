@@ -32,6 +32,6 @@ module.exports = (mongoose, models) => {
   };
 
   var User = mongoose.model('User', userSchema);
-  module.User = User;
-  
+  models.User = User;
+
 }
