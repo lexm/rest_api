@@ -8,5 +8,6 @@ var models = {};
 
 require('./Director')(mongoose, models);
 require('./Movie')(mongoose, models);
+require('./User')(mongoose, models);
 
 module.exports = models;
