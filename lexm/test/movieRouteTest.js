@@ -65,10 +65,8 @@ describe('need to have existing movie to test with', function() {
 
   beforeEach(function(done) {
     var testMovie = new Movie({'name': 'Traffic', 'release_date': 'December 27, 2000'});
-    // console.log('testMovie', testMovie);
     testMovie.save(function(err, data) {
       if(err) throw err;
-      // console.log(data);
       this.testMovie = data;
       done();
     }.bind(this));
@@ -82,12 +80,10 @@ describe('need to have existing movie to test with', function() {
 
   it('should be able to look up individual movie entry', function(done) {
     var id = this.testMovie._id;
-    console.log('id is ' + this.testMovie._id);
     request('localhost:3000')
     .get('/movies/' + id)
     .end(function(err, res) {
       expect(err).to.eql(null);
-      console.log(err);
       expect(res.body.name).to.eql('Traffic');
       expect(Date(res.body.release_date)).to.eql(Date('December 27, 2000'));
       done();
