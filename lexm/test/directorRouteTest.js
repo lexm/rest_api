@@ -9,7 +9,8 @@ chai.use(chaiHttp);
 var request = chai.request;
 var expect = chai.expect;
 
-var Director = require(__dirname + '/../models').Director;
+var models = require(__dirname + '/../models');
+var Director = models.Director;
 
 require(__dirname + '/../server');
 
