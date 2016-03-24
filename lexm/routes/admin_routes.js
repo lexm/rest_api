@@ -8,7 +8,13 @@ module.exports = (router, models) => {
     var newUser = new User(req.body);
     newUser.save((err, user) => {
       if(err) {
-        console.log(err);
+        // console.log(err.message.search('E11000'));
+        // console.log(err.message);
+        if(!err.message.search('E11000')) {
+          console.log(req.body.name);
+          res.write('User ' + req.body.name + ' already exists');
+          res.end();
+        }
       } else {
         res.write('Added user ' + user.name);
         res.end();

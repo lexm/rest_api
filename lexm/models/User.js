@@ -9,7 +9,8 @@ module.exports = (mongoose, models) => {
   var userSchema = mongoose.Schema({
     name: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     group: String,
     password: {
