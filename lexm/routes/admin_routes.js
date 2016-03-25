@@ -17,6 +17,7 @@ module.exports = (router, models) => {
         }
       } else {
         res.write('Added user ' + user.name);
+        console.log(user);
         res.end();
       }
     });

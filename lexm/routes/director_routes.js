@@ -2,6 +2,7 @@
 
 module.exports = (router, models) => {
   var Director = models.Director;
+  var authJwt = require(__dirname + '/../lib/auth_jwt');
 
   router.route('/')
   .get((req, res) => {
@@ -28,7 +29,7 @@ module.exports = (router, models) => {
     });
   })
   .delete((req, res) => {
-    Director.findById(req.params.id, (err, director) => {
+    Director.findById(req.params.id, authJwt, (err, director) => {
       director.remove((err, director) => {
         res.json({message: 'director removed'});
       });
@@ -42,7 +43,7 @@ module.exports = (router, models) => {
       res.end();
     });
   });
-  
+
   router.route('/:id')
   .get((req, res) => {
     Director.findById(req.params.id, (err, director) => {

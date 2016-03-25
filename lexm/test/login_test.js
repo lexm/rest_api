@@ -15,6 +15,10 @@ var testPass = 'winehouse';
 var testWrongUser = 'amie';
 var testWrongPass = 'whinehoose';
 
+var testUser2 = 'arnold';
+var testPass2 = 'palmer';
+var testWrongPass2 = 'schwartz';
+
 require('../server');
 
 describe('testing login', function() {
@@ -35,6 +39,29 @@ describe('testing login', function() {
       done();
     });
   });
+  it('should not be able to create a duplicate user', function(done) {
+    var dupeUserParams1 = JSON.parse(`{"name": "${testUser2}", "group": "users", "password": "${testPass2}"}`);
+    var dupeUserParams2 = JSON.parse(`{"name": "${testUser2}", "group": "users", "password": "${testWrongPass2}"}`);
+    request('localhost:3000')
+    .post('/admin')
+    .send(dupeUserParams1)
+    .end(function(err, res) {
+      console.log(err);
+      console.log(res.text);
+      if(err === null && res.text === `Added user ${testUser2}`) {
+        request('localhost:3000')
+        .post('/admin')
+        .send(dupeUserParams2)
+        .end(function(err, res) {
+          console.log(err);
+          console.log(res.text);
+
+          done();
+        })
+
+      }
+    });
+  })
   it('should be able to login with new user/password', function(done) {
     request('localhost:3000')
     .post('/login')
