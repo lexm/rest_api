@@ -5,7 +5,6 @@ var config = require(__dirname + '/../config/dbconfig');
 
 module.exports = exports = function(req, res, next) {
   var decrypt;
-  console.log('jwt in full effect');
   try {
     decrypt = jwt.verify(req.headers.token, process.env.APP_SECRET || config.secret);
   } catch(e) {

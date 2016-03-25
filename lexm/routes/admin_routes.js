@@ -14,16 +14,12 @@ module.exports = (router, models) => {
         } else {
           console.log(err);
         }
-        res.end();
-      } else {
-        console.log('posting new user', user);
-        res.end();
       }
+      res.end();
     });
   })
   .get((req, res) => {
     User.find({}, function (err, users) {
-      console.log('User : ', User);
       if(err) {console.log(err);}
       res.json(users);
       res.end();

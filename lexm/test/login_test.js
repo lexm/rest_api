@@ -46,14 +46,14 @@ describe('testing login', function() {
     .post('/admin')
     .send(dupeUserParams1)
     .end(function(err, res) {
-      console.log(err);
+      console.error(err);
       console.log(res.text);
       if(err === null && res.text === `Added user ${testUser2}`) {
         request('localhost:3000')
         .post('/admin')
         .send(dupeUserParams2)
         .end(function(err, res) {
-          console.log(err);
+          console.error(err);
           console.log(res.text);
 
           done();
