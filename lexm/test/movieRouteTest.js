@@ -9,7 +9,8 @@ chai.use(chaiHttp);
 var request = chai.request;
 var expect = chai.expect;
 
-var Movie = require(__dirname + '/../models').Movie;
+var models = require(__dirname + '/../models');
+var Movie = models.Movie;
 
 require(__dirname + '/../server');
 
