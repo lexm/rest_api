@@ -2,6 +2,9 @@
 
 module.exports = (router, models) => {
   var Movie = models.Movie;
+  var authJwt = require(__dirname + '/../lib/auth_jwt');
+
+  router.use(authJwt);
 
   router.route('/')
   .get((req, res) => {
