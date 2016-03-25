@@ -69,12 +69,5 @@ module.exports = (router, models) => {
       });
     });
   })
-
+  
 }
-
-
-// Director.find({}, (err, directors) => {
-//   res.write(directors.length.toString());
-//   console.log(directors);
-//   res.end();
-// });

@@ -9,8 +9,6 @@ module.exports = (router, models) => {
     newUser.save((err, user) => {
       if(err) {
         console.log('posting error');
-        // console.log(err.message.search('E11000'));
-        // console.log(err.message);
         if(!err.message.search('E11000')) {
           res.write('User ' + req.body.name + ' already exists');
         } else {
