@@ -5,16 +5,44 @@ var mongoose = require('mongoose');
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-
 var request = chai.request;
 var expect = chai.expect;
-
 var models = require(__dirname + '/../models');
 var Movie = models.Movie;
-
 require(__dirname + '/../server');
 
+var testUser = 'user2';
+var testPass = '98765431';
+var token = '';
+
 describe('testing Movie API', function() {
+
+  before(function(done) {
+    var userParams = JSON.parse(`{"name": "${testUser}", "group": "users", "password": "${testPass}"}`);
+    request('localhost:3000')
+    .post('/admin')
+    .send(userParams)
+    .end(function(err, res) {
+      if(err) {
+        console.error(err);;
+      } else {
+        request('localhost:3000')
+        .post('/login')
+        .auth(testUser, testPass)
+        .end(function(err, res) {
+          if(err) {
+            console.error(err);
+          } else if (!res.body.token){
+            console.log('no token');
+          } else {
+            token = req.body.token;
+            console.log('token is' + token);
+          }
+          done();
+      })
+      };
+    })
+  })
 
   after(function(done) {
     mongoose.connection.db.dropDatabase(function() {
@@ -25,6 +53,7 @@ describe('testing Movie API', function() {
   it('should be able to add a new movie', function(done) {
     request('localhost:3000')
     .post('/movies')
+    .set('Token', token)
     .send({
       'name': 'Sex, Lies, and Videotape',
       'release_date': 'January 20, 1989'
@@ -42,6 +71,7 @@ describe('testing Movie API', function() {
   it('should be able to retrieve list of movies', function(done) {
     request('localhost:3000')
     .get('/movies')
+    .set('Token', token)
     .end(function(err, res) {
       expect(err).to.eql(null);
       expect(typeof res.body).to.eql('object');
@@ -53,6 +83,7 @@ describe('testing Movie API', function() {
   it('should be able to fetch number of movies', function(done) {
     request('localhost:3000')
     .get('/movies/size')
+    .set('Token', token)
     .end(function(err, res) {
       expect(err).to.eql(null);
       expect(res.text).to.eql('1');
@@ -82,6 +113,7 @@ describe('need to have existing movie to test with', function() {
     var id = this.testMovie._id;
     request('localhost:3000')
     .get('/movies/' + id)
+    .set('Token', token)
     .end(function(err, res) {
       expect(err).to.eql(null);
       expect(res.body.name).to.eql('Traffic');
@@ -94,6 +126,7 @@ describe('need to have existing movie to test with', function() {
     var id = this.testMovie._id;
     request('localhost:3000')
     .put('/movies/' + id)
+    .set('Token', token)
     .send({'name': 'Traffic', 'release_date': 'January 5, 2001'})
     .end(function(err, res) {
       expect(err).to.eql(null);
@@ -106,6 +139,7 @@ describe('need to have existing movie to test with', function() {
     var id = this.testMovie._id;
     request('localhost:3000')
     .del('/movies/' + id)
+    .set('Token', token)
     .end(function(err, res) {
       expect(err).to.eql(null);
       expect(res.body.message).to.eql('movie removed');
